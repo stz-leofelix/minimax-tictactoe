@@ -10,7 +10,7 @@ def translate_coordinate(coordinate: str) -> int:
     coordinate = coordinate.lower()
 
     # Perform calculation to get the position
-    position: int = (ord(coordinate[0]) * 3) + int(coordinate[1])
+    position: int = ((ord(coordinate[0]) - 97) * 3) + int(coordinate[1]) - 1
 
     return position
 
@@ -70,22 +70,22 @@ def empty_board() -> list:
 def check_coordinate(coordinate: str) -> bool:
     # If the length of the coordinate is invalid
     if len(coordinate) != 2:
-        raise ValueError("Coordinate length invalid")
+        return False
 
     # Validate coordinate
-    for index in range(len(coordinate)):
+    for index in range(2):
         # If the character is out of range
-        if coordinate[index].lower() not in ["a", "b", "c", 1, 2, 3]:
+        if coordinate[index].lower() not in ["a", "b", "c", "1", "2", "3"]:
             return False
         # If the first index is not a character
         if index == 0 and not isinstance(coordinate[index], str):
             return False
         # If the second index is not an integer
         elif index == 1:
-            try:
-                int(coordinate[index])
-            except ValueError:
-                return False
+            # try:
+            int(coordinate[index])
+            # except ValueError:
+            # return False
 
     # All tests passed
     return True
@@ -111,7 +111,9 @@ def place_play(board: list, coordinate: str, player: str) -> None:
     if len(player) != 1 or player.lower() not in ["o", "x"]:
         raise ValueError("Player invalid")
 
-    # Check if the
+    # Check if a play have been already made in the respective cell
+    if board[translate_coordinate(coordinate)] != "-":
+        raise ReferenceError("Play have been already made in the according cell")
 
     # Place the play on board
     board[translate_coordinate(coordinate)] = player.lower()

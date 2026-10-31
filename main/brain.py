@@ -37,8 +37,11 @@ def board_win_condition(board: list) -> int:
         elif "".join(diagonal_board) == "ooo":
             return -10
 
-    # Indicate tie
-    return 0
+    # Check for ties
+    if "-" not in board:
+        return 0
+
+    return 99999999999999999999999999999999999999999
 
 
 def make_turn():
